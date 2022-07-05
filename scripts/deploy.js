@@ -19,7 +19,7 @@ async function main() {
 
   await distanceContract.deployed();
 
-  console.log("Greeter deployed to:", distanceContract.address);
+  console.log("Distance deployed to:", distanceContract.address);
   
 }
 

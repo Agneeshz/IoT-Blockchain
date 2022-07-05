@@ -1,0 +1,2 @@
+set NODE_API_URL=https://eth-goerli.g.alchemy.com/v2/cOA5FqnMLYM3DOSMIy8hDIkLkZcYAu5n
+set GOERLI_PRIVATE_KEY=db8a1e2473c15d96986f4efe600cae65874b21dfeb0372c736cc6b0b4835946a
