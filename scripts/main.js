@@ -30,48 +30,71 @@ const watchHCSR04 = () => {
       // {
       // console.log("hi");
       const main = async () => {
-        if ((await d) < threshold && check != d) {
-          const provider = await new ethers.providers.JsonRpcProvider(
+        if (d < threshold && check != d) {
+          const provider = new ethers.providers.JsonRpcProvider(
             "https://eth-goerli.g.alchemy.com/v2/cOA5FqnMLYM3DOSMIy8hDIkLkZcYAu5n"
           );
-          const account = "0x7e835D3A034a15dE59FEffb2C50af3D12177A0EF";
+          const sender = "0x7e835D3A034a15dE59FEffb2C50af3D12177A0EF";
 
           const privateKey =
             "db8a1e2473c15d96986f4efe600cae65874b21dfeb0372c736cc6b0b4835946a";
-          const wallet = await new ethers.Wallet(privateKey, provider);
+          const wallet = new ethers.Wallet(privateKey, provider);
 
           const ABI = [
             "function getDistance(uint256 dis) view public returns (bool flag)",
           ];
 
           const address = "0x99762A143A33444F0a1D72F3dcb6642178d50dB3";
-          const contract = await new ethers.Contract(address, ABI, provider);
+          const contract = new ethers.Contract(address, ABI, provider);
           const calc = async () => {
-            const balance = await provider.getBalance(account);
-            await console.log("\nReading contract: ", address, "\n");
-            await console.log("Address of sender: ", account, "\n");
-            await console.log(
+            const balance1 = await provider.getBalance(sender);
+            console.log("\nReading contract: ", address, "\n");
+            console.log("Address of sender: ", sender, "\n");
+            console.log(
               "Balance of sender: ",
-              ethers.utils.formatEther(balance),
+              ethers.utils.formatEther(balance1),
               "Goerli ETH\n"
             );
 
-            const contractWithWallet = await contract.connect(wallet);
+            const contractWithWallet =  contract.connect(wallet);
 
-            const tx = await contractWithWallet.getDistance(d);
+            const flag = await contractWithWallet.getDistance(d);
 
             console.log(
-              "The smart contract has been triggered",
-              "\nCondition met: ",
-              tx,
+              "WARNING: the smart contract has been triggered, distance not ideal",
+              "\nDanger threshold met: ",
+              flag,
               "\nThe distance recorded: ",
               d,
               " cm"
             );
           };
+          if(flag==true)
+          {
+            const trans = async () => {
+              console.log("\nThe danger threshold has now been met. Goerli ETH tokens will be transferred to the receiver")
+              const receiver = "0x010A2621A111B338d82Dc20b46943199263DbA16"
+              const balance2 = await provider.getBalance(receiver)
+              console.log("Address of receiver: ", receiver)
+              console.log("\nBalance of Receiver: ", ethers.utils.formatEther(balance2))
+              const tx = await wallet.sendTransaction({
+                to: receiver,
+                value: ethers.utils.parseEther("0.001")
+              })
+              await tx.wait()
+              console.log(tx)
+
+              const senderBalanceAfter = await provider.getBalance(sender)
+              const receiverBalanceAfter = await provider.getBalance(receiver)
+
+              console.log("\nSender balance after transaction: ", ethers.utils.formatEther(senderBalanceAfter))
+              console.log("\nReceiver balance after transaction: ", ethers.utils.formatEther(receiverBalanceAfter))
+            }
+            trans();
+          }
           calc();
         }
-        check = await d;
+        check = d;
       };
       main();
     }
