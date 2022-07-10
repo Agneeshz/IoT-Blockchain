@@ -14,7 +14,7 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const distanceContractFactory = await hre.ethers.getContractFactory("Distance");
+  const distanceContractFactory = await hre.ethers.getContractFactory("IoT");
   const distanceContract = await distanceContractFactory.deploy();
 
   await distanceContract.deployed();
