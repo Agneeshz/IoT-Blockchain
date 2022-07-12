@@ -10,7 +10,6 @@ const channel = new Gpio(21, { mode: Gpio.INPUT, alert: true });
 
 trigger.digitalWrite(0); // Make sure trigger is low
 
-
 const flameDetect = () => {
   channel.on("alert", (level, tick) => {
     if (level == 1) {
@@ -76,11 +75,7 @@ const flameDetect = () => {
               ethers.utils.formatEther(receiverBalanceAfter),
               "Goerli ETH"
             );
-            console.log(
-              "\nAmount Transferred: ",
-              0.0095,
-              "Goerli ETH"
-            );
+            console.log("\nAmount Transferred: ", 0.0095, "Goerli ETH");
           };
           trans();
         }
@@ -179,11 +174,7 @@ const watchHCSR04 = () => {
                   ethers.utils.formatEther(receiverBalanceAfter),
                   "Goerli ETH"
                 );
-                console.log(
-                  "\nAmount Transferred: ",
-                  0.0001,
-                  "Goerli ETH"
-                );
+                console.log("\nAmount Transferred: ", 0.0001, "Goerli ETH");
               };
               trans();
             }
