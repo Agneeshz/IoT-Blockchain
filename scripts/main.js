@@ -1,6 +1,6 @@
 const { ethers } = require("ethers");
 const Gpio = require("pigpio").Gpio;
-
+let check;
 // The number of microseconds it takes sound to travel 1cm at 20 degrees celcius
 const MICROSECDONDS_PER_CM = 1e6 / 34321;
 
@@ -93,7 +93,6 @@ const watchHCSR04 = () => {
       startTick = tick;
     } else {
       let dist;
-      let check;
       const endTick = tick;
       const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
       dist = diff / 2 / MICROSECDONDS_PER_CM;
